@@ -9,8 +9,8 @@ export class UserController {
     constructor(private readonly queryBus: QueryBus, private readonly commandBus:CommandBus) {}
 
     @Get('all')
-        async getAll() {
-            return await this.queryBus.execute(new GetUsersQuery());
+    async getAll() {
+        return await this.queryBus.execute(new GetUsersQuery());
     }
 
     @Post('add')
