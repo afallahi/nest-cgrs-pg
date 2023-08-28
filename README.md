@@ -13,15 +13,15 @@ CQRS design pattern in DDD with [Nest](https://github.com/nestjs/nest), PostgreS
 ```
 # Download or pull Postgres Docker image and start the container
 docker pull postgres
-docker run --name mypostgres -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
+docker run --name <CONTAINER_NAME> -e POSTGRES_PASSWORD=<PASSWORD> -p 5432:5432 -d postgres
 ```
 
 
 ```
 # Interact with Postgres in Terminal
 
-docker exec -it mypostgres psql -U postgres
-CREATE DATABASE mydatabase;
+docker exec -it <CONTAINER_NAME> psql -U <USERNAME>
+CREATE DATABASE <DATABASE_NAME>;
 
 CREATE TABLE UserTable(
  Id SERIAL PRIMARY KEY NOT NULL,
