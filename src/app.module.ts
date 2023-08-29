@@ -17,7 +17,13 @@ import { ConfigModule } from '@nestjs/config';
       port: parseInt(process.env.DB_PORT) || 5432,
       username: process.env.DB_USER,
       password: (process.env.IS_CLOUD === 'true') ? process.env.DB_PASSWORD_CLOUD : process.env.DB_PASSWORD_LOCAL,
-      database: process.env.DB_NAME,
+      database: (process.env.IS_CLOUD === 'true') ? process.env.DB_NAME_CLOUD : process.env.DB_NAME_LOCAL,
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
       entities:[User]
     }),
     UserModule

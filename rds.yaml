@@ -4,7 +4,7 @@ Resources:
   UsersDatabase:
     Type: AWS::RDS::DBInstance
     Properties:
-      AllocatedStorage: 20
+      AllocatedStorage: 10
       DBInstanceClass: db.t3.micro
       DBInstanceIdentifier: users-database
       PubliclyAccessible: true
