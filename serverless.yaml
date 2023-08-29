@@ -15,6 +15,10 @@ provider:
 
 package:
   individually: true
+  exclude:
+    - .build/**
+    - node_modules/**
+    - README.md
 
 functions:
   api:  # API Gateway will just proxy every request to the Lambda function and the NestJS app will handle it.
