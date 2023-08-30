@@ -6,27 +6,29 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
 
-## NestJS with CQRS Design Pattern
+# NestJS with CQRS Design Pattern
 
-### Architecture
+## Architecture
 
 CQRS design pattern in DDD with [Nest](https://github.com/nestjs/nest), PostgreSQL, and Docker.
 
-### Technologies Used
+## Technologies Used
 
 - Programming Language: `NestJS` with CQRS design pattern. Only one domain (User) is implemented for both Commands and Queries. `Typescript` used in implementation.
-- Containerization: `PostgreSQL` database is used as `Docker` container.
+- Containerization: Local `PostgreSQL` database is used as `Docker` container.
 - Cloud Computing: `AWS Lambda` function behind `AWS API Gateway` is used to trigger `REST` APIs.
--  `Serverless Framework` used for (local) cloud deployment.
+- `Serverless Framework` used for (local) cloud deployment.
+- `CloudFormation` used to deploy RDS(PostgreSQL) database on cloud.
 
-### Instructions
+## Instructions
+
+### Run as a local Nest app with local db
 
 ```
 # Download or pull Postgres Docker image and start the container
 docker pull postgres
 docker run --name <CONTAINER_NAME> -e POSTGRES_PASSWORD=<PASSWORD> -p 5432:5432 -d postgres
 ```
-
 
 ```
 # Interact with Postgres in Terminal
@@ -44,5 +46,19 @@ INSERT INTO UserTable(Name, Age) VALUES('Bob', 29);
 select * from UserTable;
 ```
 
-- Run as a local Nest app: Use commane `nest start` and open `http://localhost:3000/user/all` to get the list of users or use Postman and create a POST request to `http://localhost:3000/user/add` to add a new user.
-- Run as a local cloud lambda application: Use command `sls offline start` and follow the generated urls to communicate with the app, e.g. open `http://localhost:3000/dev/user/all` to get the list of users. 
+Run `nest start`
+
+Open `http://localhost:3000/user/all` to get the list of users or use Postman and create a POST request to `http://localhost:3000/user/add` to add a new user.
+
+### Run as a local cloud lambda application with local db
+  
+Use command `sls offline start` and follow the generated urls to communicate with the app, e.g. open `http://localhost:3000/dev/user/all` to get the list of users. 
+
+### Run as a local cloud lambda application with RDS on cloud
+
+Use CloudFormation to create PostgreSQL RDS on AWS:
+
+`aws cloudformation deploy --stack-name  users-api-db --template-file rds.yaml`
+
+Use command `sls offline start` and follow the generated urls to communicate with the app.
+
