@@ -6,19 +6,24 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
 
-# NestJS with CQRS Design Pattern
+# NestJS, CQRS, Typescript, PostgreSQL, Docker, Serverless Framework, AWS Lambda, RDS, and CloudFormation
+
+Basic NestJS application using CQRS which runs as local app, local cloud with Lambda using Serverless Framework and also connects to AWS RDS. 
 
 ## Architecture
 
-CQRS design pattern in DDD with [Nest](https://github.com/nestjs/nest), PostgreSQL, and Docker.
+CQRS design pattern in DDD with [Nest](https://github.com/nestjs/nest), PostgreSQL, and Docker for local run and Lambda and RDS for cloud.
 
-## Technologies Used
+## Stack
 
-- Programming Language: `NestJS` with CQRS design pattern. Only one domain (User) is implemented for both Commands and Queries. `Typescript` used in implementation.
-- Containerization: Local `PostgreSQL` database is used as `Docker` container.
-- Cloud Computing: `AWS Lambda` function behind `AWS API Gateway` is used to trigger `REST` APIs.
-- `Serverless Framework` used for (local) cloud deployment.
-- `CloudFormation` used to deploy RDS(PostgreSQL) database on cloud.
+- NestJS with CQRS design pattern
+- Typescript
+- PostgreSQL
+- Docker
+- AWS Lambda function behind AWS API Gateway. Single lambda serves entire API via proxy+.
+- Serverless Framework
+- CloudFormation
+- AWS RDS
 
 ## Instructions
 
