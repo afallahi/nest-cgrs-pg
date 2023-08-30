@@ -53,7 +53,15 @@ select * from UserTable;
 
 Run `nest start`
 
-Open `http://localhost:3000/user/all` to get the list of users or use Postman and create a POST request to `http://localhost:3000/user/add` to add a new user.
+List all Users
+```
+curl -H "Content-Type:application/json" http://localhost:3000/user/all
+```
+
+Create a User
+```
+curl -X POST -H "Content-Type:application/json" http://localhost:3000/user/add --data '{"name": "Bob", "age": 29}'
+```
 
 ### Run as a local cloud lambda application with local db
   
