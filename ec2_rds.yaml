@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: EC2 with RDS (PostgreSQL)
+
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-051f7e7f6c2f40dc1  #Free tier eligible
+      InstanceType: t2.micro
+      KeyName: nestjs-cqrs
+      SecurityGroupIds:
+        - !Ref MyEC2SecurityGroup
+
+  MyEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: SecGroup
+      GroupDescription: "Allows HTTP/HTTPS and SSG inbound"
+      SecurityGroupIngress:
+        - IpProtocol: tcp # http
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0 #Allow All IPs
+        - IpProtocol: tcp #https
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp #ssh
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+          
+  MyEC2EIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref MyEC2Instance
+
+Outputs:
+  WebsiteURL:
+    Value: !Sub http://${MyEC2EIP}
+    Description: My EC2 URL
+
