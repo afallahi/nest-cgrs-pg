@@ -8,7 +8,7 @@ Parameters:
   AmiID:
     Type: String
     Description: "AMI ID"
-    Default: ami-051f7e7f6c2f40dc1 #Free tier eligible in us-east-1
+    Default: ami-0d5eff06f840b45e9 # ami-051f7e7f6c2f40dc1 #Free tier eligible in us-east-1
   EnvironmentType:
     Description: "Environment Type"
     Type: String
@@ -20,6 +20,27 @@ Parameters:
   KeyPairName:
     Type: String
     Description: Key Pair Name
+
+  DBInstanceIdentifier:
+    Type: String
+    Default: "users-database"
+  DBUsername:
+    NoEcho: "true"
+    Description: PostgreSQL username
+    Type: String
+    MinLength: "3"
+    MaxLength: "20"
+    AllowedPattern: "[a-zA-Z][a-zA-Z0-9]*"
+    ConstraintDescription: Must begin with a letter and contain only alphanumeric characters
+    Default: postgres
+  DBPassword:
+    NoEcho: "true"
+    Description: PostgreSQL password
+    Type: String
+    MinLength: "8"
+    MaxLength: "20"
+    AllowedPattern: "[a-zA-Z0-9]*"
+    ConstraintDescription: Must contain only alphanumeric characters
 
 Mappings:
   InstanceTypeForEnvironment:
@@ -45,7 +66,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: SecGroup
-      GroupDescription: "Allows HTTP/HTTPS and SSG inbound"
+      GroupDescription: "Allows HTTP/HTTPS and SSH inbound"
       SecurityGroupIngress:
         - IpProtocol: tcp # http
           FromPort: 80
@@ -66,8 +87,43 @@ Resources:
       Domain: vpc
       InstanceId: !Ref MyEC2Instance
 
+  MyEC2Database:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      VPCSecurityGroups:
+      - !GetAtt MyEC2DBSecurityGroup.GroupId
+      DBInstanceClass: db.t3.micro
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      Engine: postgres
+      AllocatedStorage: 5
+      StorageType: gp2
+      EngineVersion: 14
+
+  MyEC2DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: db-sec-group
+      GroupDescription: Allows postgres inbound traffic
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupName: 
+            Ref: MyEC2SecurityGroup
+
+
 Outputs:
   WebsiteURL:
     Value: !Sub http://${MyEC2EIP}
     Description: My EC2 URL
+
+  WebServerPublicDNS:
+    Value: !GetAtt MyEC2Instance.PublicDnsName
+    Description: EC2 instance public dns
+
+  DatabaseEndpoint:
+    Value: !GetAtt MyEC2Database.Endpoint.Address
+    Description: Database endpoint
 
