@@ -73,5 +73,11 @@ Use CloudFormation to create PostgreSQL RDS on AWS:
 
 `aws cloudformation deploy --stack-name  users-api-db --template-file rds.yaml`
 
-Use command `sls offline start` and follow the generated urls to communicate with the app.
+To create the RDS in an EC2, use the following command instead:
+
+`aws cloudformation deploy --stack-name  users-api-db --template-file ec2_rds.yaml`
+
+This will allow SSH inbound traffic if you want to connect to EC2, enable PostgreSQL and connect to the databse. 
+
+Use command `sls offline start` and follow the generated urls to communicate with the app. You may allow HTTP in inbound secrurity group to (unsecurely) connect to database for testing this scenario. 
 
