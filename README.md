@@ -12,6 +12,8 @@ Basic NestJS application using CQRS which runs as local app, local cloud with La
 
 ## Architecture
 
+![Screenshot](./CQRS.png)
+
 CQRS design pattern in DDD with [Nest](https://github.com/nestjs/nest), PostgreSQL, and Docker for local run and Lambda and RDS for cloud.
 
 ## Stack
